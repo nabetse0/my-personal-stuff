@@ -14,5 +14,11 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
+
+(unless (package-installed-p 'diminish)
+  (package-install 'diminish))
+(eval-when-compile (require 'diminish))
+
+(unless (package-installed-p 'bind-key)
+  (package-install 'bind-key))
+(eval-when-compile (require 'bind-key))
