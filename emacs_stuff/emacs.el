@@ -11,16 +11,12 @@
  '(matlab-auto-fill t)
  '(matlab-comment-column 80)
  '(matlab-shell-command "matlab -nodesktop -nosplash")
+ '(org-agenda-files
+   (quote
+    ("~/Documents/tasking/2020_tasking.org" "~/Documents/tasking/2019_tasking.org")))
  '(package-selected-packages
    (quote
-    (markdown-mode evil-leader ag restclient htmlize ein
-                   visible-mark unfill toml-mode racer
-                   python-cell org matlab-mode
-                   highlight-parentheses ivy glsl-mode
-                   evil-surround evil-numbers evil-nerd-commenter
-                   evil-magit ess ergoemacs-mode cython-mode
-                   company cargo autopair auto-complete
-                   ace-window ace-jump-mode)))
+    (evil use-package org-brain simple-httpd esup diminish markdown-mode evil-leader ag restclient htmlize ein visible-mark unfill toml-mode racer python-cell org matlab-mode highlight-parentheses ivy glsl-mode evil-surround evil-numbers evil-nerd-commenter evil-magit ess ergoemacs-mode cython-mode company cargo autopair auto-complete ace-window ace-jump-mode)))
  '(projectile-project-root-files-bottom-up
    (quote
     (".git" ".hg" ".fslckout" ".bzr" "_darcs" ".projectile")))
@@ -42,7 +38,7 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
 (package-initialize)
 
@@ -52,9 +48,17 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
-(require 'bind-key)
 
+(unless (package-installed-p 'diminish)
+  (package-install 'diminish))
+(eval-when-compile (require 'diminish))
+
+(unless (package-installed-p 'bind-key)
+  (package-install 'bind-key))
+(eval-when-compile (require 'bind-key))
+
+(setq column-number-mode t)
+(setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
 
 ;; No startup screen
 ;;==============================================================================
@@ -103,6 +107,17 @@
   :defer t)
 
 
+;; Org-mode
+;;==============================================================================
+(use-package org-install
+  :mode ("\\.org$" . org-mode)
+  :bind (("\C-cl" . org-store-link)
+         ("\C-ca" . org-agenda))
+  :config
+  (setq org-log-done t)
+  (setq org-CUA-compatible t))
+
+
 ;; evil-mode
 ;;==============================================================================
 
@@ -129,6 +144,7 @@
       (switch-to-buffer buf)))
 
 (use-package evil
+  :demand t
   :ensure t
   :bind (:map evil-normal-state-map
          ("q" . nil)
@@ -143,7 +159,7 @@
          ("C-;" . 'evil-normal-state)
          ("C-g" . 'evil-exit-visual-state)
          ("C-;" . 'evil-exit-visual-state)
-         ("C-c" . 'evil-exit-visual-state)
+         ;; ("C-c" . 'evil-exit-visual-state)
          :map evil-motion-state-map
          ("C-e" . nil)
          :map evil-normal-state-map
@@ -301,17 +317,6 @@
   (setq reftex-plug-into-AUCTeX t))
 
 
-;; Org-mode
-;;==============================================================================
-(use-package org-install
-  :mode ("\\.org$" . org-mode)
-  :bind (("\C-cl" . org-store-link)
-         ("\C-ca" . org-agenda))
-  :config
-  (setq org-log-done t)
-  (setq org-CUA-compatible t))
-
-
 ;; Python
 ;;==============================================================================
 
@@ -327,6 +332,12 @@
          ("\\.pxd\\'" . cython-mode)
          ("\\.pxi\\'" . cython-mode)))
 
+;; emacs Ipython notebook
+;;==============================================================================
+
+;;(use-package ein)
+;;(use-package ein-notebook)
+;;(use-package ein-subpackages)
 
 
 ;; Matlab
@@ -348,9 +359,7 @@
 
 
 (use-package ace-window-mode
-  :bind ("M-o" . ace-window)
-  :config
-  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
+  :bind ("M-o" . ace-window))
 
 
 ;; projectile
@@ -382,6 +391,9 @@
 
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; Unfill paragraph
+(global-set-key (kbd "C-M-q") 'unfill-paragraph)
 
 
 ;; emacs server
