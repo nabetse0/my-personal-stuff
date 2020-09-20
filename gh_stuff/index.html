@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8"/>
+    <script src="gh_combat_deck.js"></script>
+    <link rel="stylesheet" type="text/css" href="mystyle.css">
+  </head>
+<body>
+
+<title>GH Combat Deck</title>
+<h1 id="page_heading">Gloomhaven Combat Deck</h1>
+
+<button id="deal_button">DEAL</button>
+<img src="images/transparent_5x5.png" height="5px" width="200em"/>
+<button id="undo_button">undo</button>
+<img src="images/transparent_5x5.png" height="5px" width="50em"/>
+<button id="reshuffle_button">Reshuffle!</button>
+<img src="images/transparent_5x5.png" height="5px" width="200em"/>
+<button id="add_curse_button">Add Curse</button>
+<img src="images/transparent_5x5.png" height="5px" width="10em"/>
+<button id="add_blessing_button">Add Blessing</button>
+
+<div id="card_viewer"></div>
+
+<script>
+  // User actions:
+  //   - deal
+  //   - undo
+  //   - shuffle
+  //   - add blessing
+  //   - add curse
+
+  var d = new Deck(document.getElementById("card_viewer"));
+  // d.addBlessing();
+  // d.addBlessing();
+  // d.addCurse();
+  // d.addCurse();
+  d.shuffle();
+
+  elem = document.getElementById("deal_button");
+  addButtonListener(elem, function () {
+      d.deal();
+  });
+
+  elem = document.getElementById("undo_button");
+  addButtonListener(elem, function () {
+      d.undo();
+  });
+
+  elem = document.getElementById("reshuffle_button");
+  addButtonListener(elem, function () {
+      d.shuffle();
+      d.clearView();
+  });
+  
+  elem = document.getElementById("add_curse_button");
+  addButtonListener(elem, function () {
+      d.addCurse();
+  });
+
+  elem = document.getElementById("add_blessing_button");
+  addButtonListener(elem, function () {
+      d.addBlessing();
+  });
+
+</script>
+
+</body>
+</html> 
