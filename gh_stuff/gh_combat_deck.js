@@ -199,9 +199,9 @@ Deck.prototype.deal = function deckDeal() {
     
     this.target_elem.prepend(card_elem);
 
-    while (this.target_elem.childElementCount > this.cards_to_show) {
-        this.target_elem.removeChild(this.target_elem.lastChild);
-    }
+    // while (this.target_elem.childElementCount > this.cards_to_show) {
+    //     this.target_elem.removeChild(this.target_elem.lastChild);
+    // }
 
     this.k++;
     this.played.push(c);
@@ -219,7 +219,9 @@ Deck.prototype.addBlessing = function deckAddBlessing() {
     let new_idx = this.card_configs.length - 1;
     this.playable_indices.push(new_idx);
     this.shuffled_indices.push(new_idx);
-    this.shuffled_indices = shuffle(this.shuffled_indices.slice(this.k));
+    this.shuffled_indices.splice(this.k,
+                                 this.num_cards_in_play - this.k + 1,
+                                 ...shuffle(this.shuffled_indices.slice(this.k)));
 };
 
 Deck.prototype.addCurse = function deckAddCurse() {
@@ -234,7 +236,9 @@ Deck.prototype.addCurse = function deckAddCurse() {
     let new_idx = this.card_configs.length - 1;
     this.playable_indices.push(new_idx);
     this.shuffled_indices.push(new_idx);
-    this.shuffled_indices = shuffle(this.shuffled_indices.slice(this.k));
+    this.shuffled_indices.splice(this.k,
+                                 this.num_cards_in_play - this.k + 1,
+                                 ...shuffle(this.shuffled_indices.slice(this.k)));
 };
 
 Deck.prototype.show = function deckShow(card) {
