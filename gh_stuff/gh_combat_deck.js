@@ -139,6 +139,7 @@ const BASIC_DECK = [
     {modifier: ModifierType.ONE, rolling: true, condition: ConditionType.NONE, reshuffle: false, special: SpecialCardType.NONE},
     {modifier: ModifierType.ZERO, rolling: true, condition: ConditionType.ADD_TARGET, reshuffle: false, special: SpecialCardType.NONE},
     {modifier: ModifierType.ZERO, rolling: false, condition: ConditionType.STUN, reshuffle: false, special: SpecialCardType.NONE},
+    {modifier: ModifierType.TWO, rolling: false, condition: ConditionType.MUDDLE, reshuffle: false, special: SpecialCardType.NONE},
 ]
 
 
@@ -193,7 +194,7 @@ Deck.prototype.deal = function deckDeal() {
 
     let card_elem = c.toHtml();
     mark = document.createElement("mark");
-    mark.append(document.createTextNode(`${this.k + 1}/${this.num_cards_in_play}:\u00A0`));
+    mark.append(document.createTextNode(`${this.k + 1}/${this.playable_indices.length}:\u00A0`));
     mark.classList.add("counter");
     card_elem.prepend(mark);
     
